@@ -1,13 +1,87 @@
 package com.learn;
 
 import org.junit.Test;
-
-import javax.sound.midi.Soundbank;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class TestType {
+
+    /**
+     * 练习：
+     * 定义函数，取出整数内存中的存储形态对应的2进制字符串
+     */
+    @Test
+    public void test7(){
+        for(int i = 0; i <= 20; i++){
+            System.out.println(getInt2Bin(i));
+        }
+    }
+
+    private String getInt2Bin(int num){
+        StringBuffer stringBuffer = new StringBuffer();
+//        char[] chars = {'0', '1'};
+        for(int i = 31; i >= 0; i--){
+//            stringBuffer.append(chars[num >> i & 0b1]);
+            stringBuffer.append(num >> i & 0b1);
+        }
+        return stringBuffer.toString();
+    }
+
+    /**
+     * Java 字符全量输出
+     * printf :
+     * %md : 右对齐，当位数少于 m 时左侧补充空格
+     * %-ms ： - 左对齐，位数小于 m 时右侧补充空格
+     */
+    @Test
+    public void test6(){
+        int bits = 4; // 左移量，当 = 0 时输出的是全部 Unicode，每增加 1 输出减半
+        int cols = 0; // 每列数量，超出后换行
+        for(int i = 0; i <= (0xffff >> bits); i++){ // java 中字符采用Unicode编码存储，两字节
+            if(i != 8 && i != 9 && i != 10 && i != 11 && i != 12 && i != 13){
+                System.out.printf("%5d\t: %-10s", i, (char)i);
+            }else {
+                if(i == 8){
+                    System.out.printf("%5d\t: %-10s", i, "少个\\t");
+                }
+                if(i == 9){
+                    System.out.printf("%5d\t: %-10s", i, "\\t");
+                }
+                if(i == 10){ //10 是换行
+                    System.out.printf("%5d\t: %-10s", i, "\\n");
+//                System.out.println();
+                }
+                if(i == 11 || i == 12 || i == 13){
+                    System.out.printf("%5d\t: %-7s", i, "不显示");
+                }
+            }
+
+            cols++;
+            if(cols > 10){
+                System.out.println();
+                cols = 0;
+            }
+        }
+    }
+
+    /**
+     * md5
+     */
+    @Test
+    public void testMD5() throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("md5");
+        byte[] bytes = md.digest("abc".getBytes());
+        char[] hexNums = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+        StringBuffer sb = new StringBuffer();
+        for(byte b : bytes){
+            sb.append(hexNums[b >> 4 & 0xf]);
+            sb.append(hexNums[b & 0xf]);
+        }
+        System.out.println(sb.toString());
+        //输出：900150983cd24fb0d6963f7d28e17f72
+        //百度：900150983cd24fb0d6963f7d28e17f72
+    }
 
     /**
      * 修改 vm options 尝试从 console 输入进行junit测试
@@ -49,7 +123,7 @@ public class TestType {
     @Test
     public void test3(){
         char c = '中';
-        System.out.println(String2Hex(c));
+        System.out.println(String2Hex(c)); // \u4e2d
     }
 
     /**
