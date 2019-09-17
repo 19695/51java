@@ -13,9 +13,10 @@ public class TestType {
      */
     @Test
     public void test7(){
-        for(int i = 0; i <= 20; i++){
-            System.out.println(getInt2Bin(i));
-        }
+//        for(int i = 0; i <= 20; i++){
+//            System.out.println(getInt2Bin(i));
+//        }
+        System.out.println(getInt2Bin(-1));
     }
 
     private String getInt2Bin(int num){
