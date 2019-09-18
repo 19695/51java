@@ -7,6 +7,50 @@ import java.io.*;
 public class TestIO {
 
     /**
+     * 使用InputStreamReader读取字符
+     * 使用InputStreamReader可以指定字符集，保证读取字符的完整性
+     */
+    @Test
+    public void test5() throws Exception {
+        InputStreamReader isr = new InputStreamReader(
+                new FileInputStream("src/test/IOFile/字符.txt"), "UTF-8");
+        char[] buf = new char[2];
+        int len = 0;
+        while((len = isr.read(buf)) != -1){
+            System.out.println(new String(buf, 0, len));
+        }
+        isr.close();
+    }
+
+    /**
+     * 使用FileReader读取字符
+     */
+    @Test
+    public void test4() throws IOException {
+        FileReader fr = new FileReader("src/test/IOFile/字符.txt");
+        int len = 0;
+        char[] c = new char[2];
+        while ((len = fr.read(c)) != -1){
+            System.out.println(new String(c, 0, len));
+        }
+        fr.close();
+    }
+
+    /**
+     * 使用FileInputStream读取字符
+     */
+    @Test
+    public void test3() throws IOException {
+        FileInputStream fin = new FileInputStream("src/test/IOFile/字符.txt");
+        int len = 0;
+        byte[] buf = new byte[3];//unicode两个字节，第二个字符读取时被拆开
+        while((len = fin.read(buf)) != -1){
+            System.out.println(new String(buf, 0, len));
+        }
+        fin.close();
+    }
+
+    /**
      * 写入到文件一个字节（byte b = -1）
      */
     @Test
