@@ -20,3 +20,6 @@ R
 +module1/src/test/java/com/learn/TestIO.java,6\d\6d3f0256868f7754069e2e0843be13556f99d1c8
 S
 #module1/src/test/IOFile/English.txt,4\e\4ef890f8a8956159c7380fb67118c8788a8718fc
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
