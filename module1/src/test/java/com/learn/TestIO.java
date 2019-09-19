@@ -7,6 +7,16 @@ import java.io.*;
 public class TestIO {
 
     /**
+     * 使用FileOutputStream向文件中以指定字符集写入
+     */
+    @Test
+    public void test6() throws Exception {
+        FileOutputStream fout = new FileOutputStream("src/test/IOFile/使用unicode字符集.txt");
+        fout.write("a中b".getBytes("unicode"));
+        fout.close();
+    }
+
+    /**
      * 使用InputStreamReader读取字符
      * 使用InputStreamReader可以指定字符集，保证读取字符的完整性
      */

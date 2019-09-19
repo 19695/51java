@@ -25,3 +25,7 @@ S
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 N
 module1/src/test/IOFile/WR.txt,4\0\409d9e082472833812fd47706c6545e62623d521
+R
+"module1/src/test/IOFile/字符.txt,a\b\ab6559f8eccba5d0a71bdcfd31aad3701575effa
+b
+2module1/src/test/IOFile/使用unicode字符集.txt,0\5\05856db06334704f217bb7f6e5dab6648bd2a5cf
