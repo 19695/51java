@@ -3,8 +3,75 @@ package com.learn;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 public class TestIO {
+
+    /**
+     * 压缩流——解压缩
+     */
+    @Test
+    public void  test9() throws Exception{
+        FileInputStream fis = new FileInputStream("src/test/IOFile/zos.zip"); // 压缩文件名
+        ZipInputStream zis = new ZipInputStream(fis); // 解压缩
+        byte[] buf = new byte[1024];
+        int len = 0;
+        ZipEntry entry; // 压缩文件里的一个条目就是一个entry
+        String fileDir = "src\\test\\IOFile\\TestUnzipFiles"; // parent path
+        while((entry = zis.getNextEntry()) != null){
+            String name = entry.getName(); // child path
+            File f = new File(fileDir, name); // 与parent path组成完整的文件路径
+            FileOutputStream fout = new FileOutputStream(f);
+            while((len = zis.read(buf)) != -1){
+                fout.write(buf, 0, len);
+            }
+            fout.close();
+        }
+        zis.close();
+        fis.close();
+    }
+
+    /**
+     * 压缩流——压缩
+     * 使用“好压”压缩后的TestZipFiles.zip 451 字节
+     * 使用压缩流压缩后的 zos.zip 391 字节
+     */
+    @Test
+    public void test8() throws Exception{
+        FileOutputStream fos = new FileOutputStream("src/test/IOFile/zos.zip"); // 压缩文件名
+        ZipOutputStream zos = new ZipOutputStream(fos); // 压缩流
+        byte[] buf = new byte[1024];
+        int len = -1; // 为什么视频中有时 len = 0，有时 len = -1 ？
+        File dir = new File("src\\test\\IOFile\\TestZipFiles");
+        File[] files = dir.listFiles();
+        for(File f : files){
+            if(f.isFile()){
+                String fileName = f.getName(); // 文件名
+                FileInputStream fin = new FileInputStream(f);
+                zos.putNextEntry(new ZipEntry(fileName)); //压缩后的单个文件名
+                while((len = fin.read(buf)) != -1){
+                    zos.write(buf, 0, len);
+                }
+                fin.close(); // 及时关闭循环中的输入流
+            }
+        }
+        zos.close();
+        fos.close();
+    }
+
+    /**
+     * 内存流
+     */
+    @Test
+    public void test7() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        baos.write("abc".getBytes("unicode"));
+        byte[] bytes = baos.toByteArray();
+        baos.close();
+        System.out.println(bytes.length); // 8
+    }
 
     /**
      * 使用FileOutputStream向文件中以指定字符集写入

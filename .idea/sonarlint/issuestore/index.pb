@@ -29,3 +29,9 @@ R
 "module1/src/test/IOFile/字符.txt,a\b\ab6559f8eccba5d0a71bdcfd31aad3701575effa
 b
 2module1/src/test/IOFile/使用unicode字符集.txt,0\5\05856db06334704f217bb7f6e5dab6648bd2a5cf
+^
+.module1/src/test/IOFile/TestZipFiles/File2.txt,9\5\95b667fed8048eb91cb0b76a779240c84aee564d
+^
+.module1/src/test/IOFile/TestZipFiles/File1.txt,e\7\e77aa42be4b48329aceb5dbff5a1f3a7daa836b6
+^
+.module1/src/test/IOFile/TestZipFiles/File3.txt,e\4\e47c4a6096becb2d1f3f26b2ea2c27ce168c106c
