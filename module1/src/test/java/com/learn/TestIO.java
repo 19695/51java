@@ -249,9 +249,8 @@ public class TestIO {
      */
     @Test
     public void test2(){
-        byte b = -10;
         int i = 0;
-        for( ; b <= 10; b++){
+        for(byte b = -10; b <= 10; b++){
             i = (int)b & 0xff;
             if(i == 0)  System.out.println();
             System.out.print(i + "\t");

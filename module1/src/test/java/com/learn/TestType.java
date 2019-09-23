@@ -7,23 +7,66 @@ import java.util.Scanner;
 
 public class TestType {
 
+    // ~1 = -2
+    /**
+     * int 与 字节数组互转
+     */
+    @Test
+    public void test8(){
+        // 将 int 拆分成4个字节
+        byte[] bytes = getInt2bytes(-1);
+        for(byte b : bytes){
+            System.out.println(b);
+        }
+        // 将字节数组组成 int
+        System.out.println(getBytes2Int(getInt2bytes(-1)));
+    }
+
+    /**
+     * 将字节数组组成 int
+     */
+    public int getBytes2Int(byte[] bytes){
+        int intNum = (bytes[0] & 0xff) << 0 | // 低 0-7 位
+                (bytes[1] & 0xff) << 8 | // 低 8-15 位
+                (bytes[2] & 0xff) << 16 | // 高 8-15 位
+                (bytes[3] & 0xff) << 24; // 高 0-7 位
+        return intNum;
+    }
+
+    /**
+     * 将 int 拆分成4个字节
+     */
+    public byte[] getInt2bytes(int i){
+        byte[] bytes = new byte[4];
+        bytes[0] = (byte) (i >> 0 & 0xff);
+        bytes[1] = (byte) (i >> 8 & 0xff);
+        bytes[2] = (byte) (i >> 16 & 0xff);
+        bytes[3] = (byte) (i >> 24 & 0xff);
+        return bytes;
+    }
+
     /**
      * 练习：
      * 定义函数，取出整数内存中的存储形态对应的2进制字符串
      */
     @Test
     public void test7(){
-//        for(int i = 0; i <= 20; i++){
-//            System.out.println(getInt2Bin(i));
-//        }
+        for(int i = 0; i <= 20; i++){
+            System.out.println(i + " : " + getInt2Bin(i));
+        }
+        System.out.println();
         System.out.println(getInt2Bin(-1));
+        System.out.println(getInt2Bin(-2));
     }
 
+    /**
+     * 将int转为二进制表示形式
+     * @param num
+     * @return
+     */
     private String getInt2Bin(int num){
         StringBuffer stringBuffer = new StringBuffer();
-//        char[] chars = {'0', '1'};
         for(int i = 31; i >= 0; i--){
-//            stringBuffer.append(chars[num >> i & 0b1]);
             stringBuffer.append(num >> i & 0b1);
         }
         return stringBuffer.toString();
