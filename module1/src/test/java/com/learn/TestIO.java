@@ -1,5 +1,6 @@
 package com.learn;
 
+import com.learn.domain.Person;
 import org.junit.Test;
 
 import java.io.*;
@@ -8,6 +9,101 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public class TestIO {
+    /**
+     * 深度复制——使用内存流的方式
+     */
+    @Test
+    public void test12() throws Exception {
+        Person p1 = new Person("p1");
+        Person p2 = new Person("p2");
+        Person p3 = new Person("p3");
+        Person p4 = new Person("p4");
+        Person enemy = new Person("enemy");
+        //设置关联关系
+        p1.setFriend(p2);
+        p2.setFriend(p3);
+        p3.setFriend(p4);
+        p2.setEnemy(enemy);
+
+        Person person = (Person) deepCopy(p2);
+    }
+    /**
+     * 深度复制——使用内存流的方式
+     */
+    public Object deepCopy(Object src){
+        try{
+            // 串行
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(src);
+            oos.close();
+            baos.close();
+
+            // 反串行
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            Object obj = ois.readObject();
+            ois.close();
+            bais.close();
+            return obj;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 深度复制——使用读写磁盘文件的方式
+     */
+    @Test
+    public void test11() throws Exception{
+        Person p1 = new Person("p1");
+        Person p2 = new Person("p2");
+        Person p3 = new Person("p3");
+        Person p4 = new Person("p4");
+        //设置关联关系
+        p1.setFriend(p2);
+        p2.setFriend(p3);
+        p3.setFriend(p4);
+        //通过串行化实现深度复制
+        FileOutputStream fos = new FileOutputStream("src/test/IOFile/person-copy.dat");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(p2);
+        oos.close();
+        fos.close();
+    }
+
+    /**
+     * 反串行化
+     */
+    @Test
+    public void testDeserial() throws Exception {
+        // 反串行化 ObjectOutputStream-p.dat ，学习反串行化
+//        FileInputStream fis = new FileInputStream("src\\test\\IOFile\\ObjectOutputStream-p.dat");
+        // 反串行化 person-copy.dat ， 学习深度复制
+        FileInputStream fis = new FileInputStream("src/test/IOFile/person-copy.dat");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        Person p = (Person)ois.readObject();
+        ois.close();
+        fis.close();
+        System.out.println(p.getAge()); // 串行前赋值的
+        System.out.println(p.toString()); // 串行后新增的方法
+        System.out.println(p.getNum()); // 串行后新增的属性num的getter
+
+    }
+
+    /**
+     * 串行化
+     */
+    @Test
+    public void test10() throws Exception {
+        Person p = new Person(1, "name", 23);
+        FileOutputStream fout = new FileOutputStream("src\\test\\IOFile\\ObjectOutputStream-p.dat");
+        ObjectOutputStream oos = new ObjectOutputStream(fout);
+        oos.writeObject(p);
+        oos.close();
+        fout.close();
+    }
 
     /**
      * 压缩流——解压缩
