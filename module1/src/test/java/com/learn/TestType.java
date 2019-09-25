@@ -7,6 +7,31 @@ import java.util.Scanner;
 
 public class TestType {
 
+    /**
+     * int 转 16进制
+     */
+    @Test
+    public void testInt2Hex(){
+        System.out.println(int2Hex(0));
+        System.out.println(int2Hex(-1));
+        System.out.println(int2Hex(Integer.MAX_VALUE));
+        System.out.println(int2Hex(Integer.MIN_VALUE));
+    }
+
+    public static String int2Hex(int i) {
+        StringBuffer sb = new StringBuffer() ;
+        char[] chars = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'} ;
+        sb.append(chars[i >> 28 & 0xf]) ;
+        sb.append(chars[i >> 24 & 0xf]) ;
+        sb.append(chars[i >> 20 & 0xf]) ;
+        sb.append(chars[i >> 16 & 0xf]) ;
+        sb.append(chars[i >> 12 & 0xf]) ;
+        sb.append(chars[i >> 8 & 0xf]) ;
+        sb.append(chars[i >> 4 & 0xf]) ;
+        sb.append(chars[i >> 0 & 0xf]) ;
+        return sb.toString();
+    }
+
     // ~1 = -2
     /**
      * int 与 字节数组互转
@@ -51,12 +76,16 @@ public class TestType {
      */
     @Test
     public void test7(){
-        for(int i = 0; i <= 20; i++){
-            System.out.println(i + " : " + getInt2Bin(i));
-        }
-        System.out.println();
         System.out.println(getInt2Bin(-1));
         System.out.println(getInt2Bin(-2));
+        System.out.println(getInt2Bin(0));
+        System.out.println(getInt2Bin(Integer.MAX_VALUE));
+        System.out.println(getInt2Bin(Integer.MIN_VALUE));
+
+//        System.out.println();a
+//        for(int i = 0; i <= 20; i++){
+//            System.out.println(i + " : " + getInt2Bin(i));
+//        }
     }
 
     /**

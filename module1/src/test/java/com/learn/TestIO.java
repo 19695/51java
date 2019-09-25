@@ -244,6 +244,15 @@ public class TestIO {
     }
 
     /**
+     * 升格补符号位
+     */
+    @Test
+    public void test2_1(){
+        byte b = -1 ;
+        System.out.println((int) b ) ;
+    }
+
+    /**
      * 将byte全部值转为正数
      * 256个输出太长，-10 ~ 10看一下输出就行
      */
@@ -251,8 +260,7 @@ public class TestIO {
     public void test2(){
         int i = 0;
         for(byte b = -10; b <= 10; b++){
-            i = (int)b & 0xff;
-            if(i == 0)  System.out.println();
+            i = (int)b & 0xff; // 升格补符号位，与上 0xff 将前三个字节变成 0
             System.out.print(i + "\t");
         }
     }
