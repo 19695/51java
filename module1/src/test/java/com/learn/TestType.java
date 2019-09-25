@@ -14,12 +14,12 @@ public class TestType {
     @Test
     public void test8(){
         // 将 int 拆分成4个字节
-        byte[] bytes = getInt2bytes(-1);
+        byte[] bytes = getInt2bytes(Integer.MAX_VALUE);
         for(byte b : bytes){
             System.out.println(b);
         }
         // 将字节数组组成 int
-        System.out.println(getBytes2Int(getInt2bytes(-1)));
+        System.out.println(getBytes2Int(getInt2bytes(Integer.MAX_VALUE)));
     }
 
     /**
@@ -38,10 +38,10 @@ public class TestType {
      */
     public byte[] getInt2bytes(int i){
         byte[] bytes = new byte[4];
-        bytes[0] = (byte) (i >> 0 & 0xff);
-        bytes[1] = (byte) (i >> 8 & 0xff);
-        bytes[2] = (byte) (i >> 16 & 0xff);
-        bytes[3] = (byte) (i >> 24 & 0xff);
+        bytes[0] = (byte) (i >> 0);
+        bytes[1] = (byte) (i >> 8);
+        bytes[2] = (byte) (i >> 16);
+        bytes[3] = (byte) (i >> 24);
         return bytes;
     }
 
@@ -110,7 +110,7 @@ public class TestType {
     }
 
     /**
-     * md5
+     * md5：字节值转为16进制
      */
     @Test
     public void testMD5() throws NoSuchAlgorithmException {
