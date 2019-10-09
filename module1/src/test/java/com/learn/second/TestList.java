@@ -8,10 +8,84 @@ import java.util.LinkedList;
 public class TestList {
 
     /**
+     * ArrayList contains
+     */
+    @Test
+    public void test4(){
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(1);
+        arrayList.contains(1); // 断点
+    }
+
+    /**
+     * 对比 ArrayList & LinkedList 读取速度
+     * 十万级数据读取其中一个
+     */
+    @Test
+    public void test3() {
+        // 定义一个十万数据的 ArrayList
+        ArrayList<Integer> arrayList = new ArrayList();
+        int num = 100000;
+        for(int i = 0; i < num; i++){
+            arrayList.add(i);
+        }
+        // 读取 ArrayList
+        long start = System.nanoTime(); // 纳秒
+        arrayList.get(50000); // 断点 1
+        long end = System.nanoTime(); // 纳秒
+        System.out.println("arrayList.get(i);\t" + (end - start));
+
+        // 定义一个十万数据的LinkedList
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        for(int i = 0; i < num; i++){
+            linkedList.add(i);
+        }
+        // 读取 LinkedList
+        start = System.nanoTime(); // 纳秒
+        linkedList.get(50000); // 断点 2
+        end = System.nanoTime(); // 纳秒
+        System.out.println("linkedList.get(i);\t" + (end - start));
+    }
+
+    /**
+     * 对比 ArrayList & LinkedList 读取速度
+     * 十万级数据遍历读取
+     */
+    @Test
+    public void test2() {
+        // 定义一个十万数据的 ArrayList
+        ArrayList<Integer> arrayList = new ArrayList();
+        int num = 100000;
+        for(int i = 0; i < num; i++){
+            arrayList.add(i);
+        }
+        // 读取 ArrayList
+        long start = System.currentTimeMillis();
+        for(int i = 0; i < num; i++){
+            arrayList.get(i);
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("arrayList.get(i);\t" + (end - start));
+
+        // 定义一个十万数据的LinkedList
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        for(int i = 0; i < num; i++){
+            linkedList.add(i);
+        }
+        // 读取 LinkedList
+        start = System.currentTimeMillis();
+        for(int i = 0; i < num; i++){
+            linkedList.get(i);
+        }
+        end = System.currentTimeMillis();
+        System.out.println("linkedList.get(i);\t" + (end - start));
+    }
+
+    /**
      * 对比 ArrayList & LinkedList 追加（尾部插入）速度
      */
     @Test
-    public void test1(){
+    public void test1() {
         ArrayList<Integer> arrayList = new ArrayList();
         int num = 1000000;
         long start = System.currentTimeMillis();

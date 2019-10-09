@@ -1,4 +1,4 @@
-package com.learn;
+package com.learn.first;
 
 import com.learn.domain.Person;
 import org.junit.Test;

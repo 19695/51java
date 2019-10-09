@@ -1,8 +1,6 @@
 
 ?
 module1/pom.xml,4\b\4b27a37de9389f4659c2a2b1528a17802ed06dbf
-]
--module1/src/test/java/com/learn/TestType.java,d\3\d33a65b3bd1bbd8fa0ca14a19c13afed931361c3
 [
 +.idea/libraries/Maven__junit_junit_4_12.xml,a\f\afa6ca72908af2e838d0cb108eb24f143bc62da7
 i
@@ -16,8 +14,6 @@ C
 module1/module1.iml,4\f\4f4d8c6bc786ad9ce98036f4976dc9e51a11f81b
 R
 "module1/src/test/IOFile/中文.txt,b\a\badd469ecc129dabb0e53e1757e60bbb48fffd45
-[
-+module1/src/test/java/com/learn/TestIO.java,6\d\6d3f0256868f7754069e2e0843be13556f99d1c8
 S
 #module1/src/test/IOFile/English.txt,4\e\4ef890f8a8956159c7380fb67118c8788a8718fc
 :
@@ -45,3 +41,9 @@ d
 4module1/src/test/java/com/learn/second/TestCalc.java,4\6\46c640800325c7c533969c2cffcb151f36cb1190
 d
 4module1/src/test/java/com/learn/second/TestList.java,4\3\43715137b5cecc17106a9a044d21aac827d3eae8
+c
+3module1/src/test/java/com/learn/first/TestType.java,6\5\65cff258152300ebb1060a8a8adea917fc4755ec
+a
+1module1/src/test/java/com/learn/first/TestIO.java,b\c\bc2e802d67e2b10c3b6b1a0c3bc55136db164d8d
+g
+7module1/src/test/java/com/learn/second/TestHashMap.java,5\a\5a209b3376adb9f4ae2d6adf43fa6a567e8ffa42

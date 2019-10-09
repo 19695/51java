@@ -1,0 +1,129 @@
+package com.learn.second;
+
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.junit.Test;
+import sun.awt.windows.WToolkit;
+
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
+
+/**
+ * @author Colm
+ * @create 2019/10/8
+ */
+public class TestTreeMap {
+
+    /* **********************************
+     *
+     * TreeMap 添加流程
+     *
+     * **********************************
+     */
+    @Test
+    public void test4(){
+        Map<Integer, String> map = new TreeMap<>();
+        map.put(0, "aaa"); // 断点 1，首次 root
+        map.put(4, "aaa"); // 断点 2，添加到右侧
+        map.put(8, "aaa"); // 断点 3，左旋将 4 设为root
+        map.put(12, "aaa"); // 断点4，12 为 8 的右节点
+        map.put(5, "aaa"); // 断点 5，5 为 8 的左节点
+        map.put(2, "aaa"); // 断点 6，2 为 0 的右节点
+        map.put(6, "aaa"); // 断点 7，6 为 5 的右节点
+        map.put(7, "aaa"); // 断点 8，7 为 6 的右节点，5 对 6 左旋，6 为 8 的左节点
+//        map.put(null, null); // key 不能为 null
+        map.put(9, null); // 断点 9，9 为  12 左节点
+        map.put(18, null); // 断点 10，18 为 12 的右节点
+        map.put(20, null); // 断点 11，20 为 18 的右节点，4 绕 8 左旋
+        travelMap(map);
+    }
+
+    /**
+     * boolean
+     */
+    @Test
+    public void test(){
+        boolean a = Boolean.parseBoolean("true");
+        System.out.println(a);
+        a = Boolean.parseBoolean("false");
+        System.out.println(a);
+        a = Boolean.parseBoolean("aaaa");
+        System.out.println(a);
+//        boolean b = 0 ; // Error:(21, 21) java: 不兼容的类型: int无法转换为boolean
+//        boolean c = 1 ; // Error:(22, 21) java: 不兼容的类型: int无法转换为boolean
+//        System.out.println(b);
+//        System.out.println(c);
+        boolean aa = Boolean.valueOf("true");
+        System.out.println(aa);
+        aa = Boolean.valueOf("false");
+        System.out.println(aa);
+        aa = Boolean.valueOf("aaa");
+        System.out.println(aa);
+    }
+
+    /**
+     * TreeMap 排序，key没有实现 Comparable 的情况下
+     * 使用匿名内部类的方式进行降序排列
+     */
+    @Test
+    public void test3(){
+        Map map = new TreeMap(new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                MyKey k1 = (MyKey) o1;
+                MyKey k2 = (MyKey) o2;
+                return k2.key - k1.key ;
+            }
+        });
+        map.put(new MyKey(2), "aaa");
+        map.put(new MyKey(5), "bbb");
+        map.put(new MyKey(3), "ccc");
+        map.put(new MyKey(1), "ddd");
+        map.put(new MyKey(4), "rrr");
+        travelMap(map);
+    }
+
+    /**
+     * TreeMap 排序，key没有实现 Comparable 的情况下
+     * java.lang.ClassCastException: com.learn.second.MyKey cannot be cast to java.lang.Comparable
+     */
+    @Test
+    public void test2(){
+        Map map = new TreeMap();
+        map.put(new MyKey(2), "aaa");
+        map.put(new MyKey(5), "bbb");
+        map.put(new MyKey(3), "ccc");
+        map.put(new MyKey(1), "ddd");
+        map.put(new MyKey(4), "rrr");
+        travelMap(map);
+    }
+
+    /**
+     * TreeMap 排序，自然排序
+     * key 本身可以 Comparable
+     * public final class Integer extends Number implements Comparable<Integer> {...}
+     */
+    @Test
+    public void test1(){
+        Map map = new TreeMap();
+        map.put(4, "aaa");
+        map.put(1, "bbb");
+        map.put(3, "ccc");
+        map.put(2, "ddd");
+        map.put(5, "rrr");
+        travelMap(map);
+    }
+
+    /**
+     * 遍历 map 打印
+     * @param map
+     */
+    public void travelMap(Map map){
+        for(Object object : map.entrySet()){
+            Map.Entry entry = (Map.Entry) object;
+            Object key = entry.getKey();
+            Object value = entry.getValue();
+            System.out.println(key + " : " + value);
+        }
+    }
+}
