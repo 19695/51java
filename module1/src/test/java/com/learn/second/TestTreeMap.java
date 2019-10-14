@@ -2,8 +2,10 @@ package com.learn.second;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Test;
+import org.omg.Messaging.SyncScopeHelper;
 import sun.awt.windows.WToolkit;
 
+import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -13,6 +15,118 @@ import java.util.TreeMap;
  * @create 2019/10/8
  */
 public class TestTreeMap {
+
+    /**
+     * 二叉树的遍历
+     */
+    @Test
+    public void test5() throws Exception {
+        TreeMap map = getTreeMap(10);
+        getRoot(map); // 断点，看entry
+        System.out.println(getEntryKey(getRoot(map)));
+        // 前序
+        prevOrderTravel(getRoot(map));
+        System.out.println();
+        // 中序
+        middOrderTravel(getRoot(map));
+        System.out.println();
+        // 后序
+        backOrderTravle(getRoot(map));
+    }
+
+    // 递归实现前序遍历—— 根左右
+    public static void prevOrderTravel(Map.Entry entry) throws Exception {
+        if(entry != null){
+            System.out.print(getEntryKey(entry) + " ");
+            prevOrderTravel(getLeft(entry));
+            prevOrderTravel(getRight(entry));
+        }
+    }
+
+    // 中序——左根右
+    public static void middOrderTravel(Map.Entry entry) throws Exception {
+        if(entry != null){
+            middOrderTravel(getLeft(entry));
+            System.out.print(getEntryKey(entry) + " ");
+            middOrderTravel(getRight(entry));
+        }
+    }
+
+    // 后序——左右根
+    public static void backOrderTravle(Map.Entry entry) throws Exception {
+        if(entry != null){
+            backOrderTravle(getLeft(entry));
+            backOrderTravle(getRight(entry));
+            System.out.print(getEntryKey(entry) + " ");
+        }
+    }
+
+    // 获取指定长度的 TreeMap
+    public static TreeMap getTreeMap(int n){
+        TreeMap<Integer, String> treeMap = new TreeMap<>();
+        for(int i = 1; i <= n; i ++){
+            treeMap.put(i, Integer.toString(i));
+        }
+        return treeMap;
+    }
+
+    // 获取节点的 key
+    public static Object getEntryKey(Map.Entry entry) throws Exception {
+        if(entry != null){
+            Field f = entry.getClass().getDeclaredField("key");
+            f.setAccessible(true);
+            Object obj = f.get(entry);
+            return obj;
+        }
+        return null;
+    }
+
+    // 获取根节点
+    public static Map.Entry getRoot(Map map) throws Exception {
+        Field f = map.getClass().getDeclaredField("root");
+        f.setAccessible(true);
+        Object obj = f.get(map);
+        return (Map.Entry) obj;
+    }
+
+    // 获取右节点
+    public static Map.Entry getRight(Map.Entry entry) throws Exception {
+        return getEntry(entry, "right");
+    }
+
+    // 获取左节点
+    public static Map.Entry getLeft(Map.Entry entry) throws Exception {
+        return getEntry(entry, "left");
+    }
+
+    // 根据传入的 fieldName 获取 entry，获取左右节点的通用方法
+    public static Map.Entry getEntry(Map.Entry entry, String fieldName) throws Exception {
+        Field f = entry.getClass().getDeclaredField(fieldName) ;
+        f.setAccessible(true);
+        Object obj = f.get(entry) ;
+        return (Map.Entry) obj;
+    }
+
+    /*
+    for 各个部分执行顺序
+     */
+    @Test
+    public void testFor(){
+        boolean f = false ;
+        // f = true , f != false
+        System.out.println( f = true == false );
+
+        System.out.println("==========");
+        System.out.println(f);
+        System.out.println("==========");
+        int i = 1 ;
+        for (System.out.println(1); f = true ; System.out.println(3), i++) {
+            System.out.println(f);
+            System.out.println(2);
+            if(i == 10)
+                break;
+        }
+    }
 
     /* **********************************
      *
