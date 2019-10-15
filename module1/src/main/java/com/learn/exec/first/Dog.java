@@ -1,4 +1,4 @@
-package com.learn.domain;
+package com.learn.exec.first;
 
 public class Dog extends Animal {
     @Override

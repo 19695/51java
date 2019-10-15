@@ -1,4 +1,4 @@
-package com.learn.second;
+package com.learn.exec.second;
 
 import org.junit.Test;
 

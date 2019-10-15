@@ -1,4 +1,4 @@
-package com.learn.thread;
+package com.learn.exec.second.thread;
 
 /**
  * @author Colm

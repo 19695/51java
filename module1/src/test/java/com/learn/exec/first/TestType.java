@@ -1,4 +1,4 @@
-package com.learn.first;
+package com.learn.exec.first;
 
 import org.junit.Test;
 import java.security.MessageDigest;

@@ -1,9 +1,6 @@
-package com.learn.second;
+package com.learn.exec.second;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Test;
-import org.omg.Messaging.SyncScopeHelper;
-import sun.awt.windows.WToolkit;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;
@@ -199,7 +196,7 @@ public class TestTreeMap {
 
     /**
      * TreeMap 排序，key没有实现 Comparable 的情况下
-     * java.lang.ClassCastException: com.learn.second.MyKey cannot be cast to java.lang.Comparable
+     * java.lang.ClassCastException: MyKey cannot be cast to java.lang.Comparable
      */
     @Test
     public void test2(){

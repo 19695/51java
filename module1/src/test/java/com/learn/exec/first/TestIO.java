@@ -1,6 +1,5 @@
-package com.learn.first;
+package com.learn.exec.first;
 
-import com.learn.domain.Person;
 import org.junit.Test;
 
 import java.io.*;
