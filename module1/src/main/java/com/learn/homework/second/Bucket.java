@@ -1,6 +1,11 @@
 package com.learn.homework.second;
 
 /**
+ * 蜂蜜容器类
+ * 打印前后 sleep 都影响 熊吃的数量
+ * sleep 一般都是 50 吃
+ * 不加  吃的数量更分散
+ *
  * @author Colm
  * @create 2019/10/15
  */
@@ -11,34 +16,24 @@ public class Bucket {
     private int capacity = EMPTY_CAPACITY;
 
     public synchronized void load(String name) {
-        // 当容量大于等于 20 时候给熊个吃的机会
-        while(capacity >= THRESHOLD){
-            // 当前容量大于等于最大容量的时候，进入等待
-            while(capacity >= MAX_CAPACITY){
-                tryCatchWait();
-            }
-            tryCatchSleep(1000L);
-            capacity++;
-            System.out.println(name + " +++ " + capacity);
-            notifyAll();
+        // 当前容量大于等于最大容量的时候，进入等待
+        while(capacity >= MAX_CAPACITY){
             tryCatchWait();
         }
         capacity++;
         System.out.println(name + " +++ " + capacity);
+        notify();
+        // 不加 wait 大概率是一只蜜蜂干活，n-1只蜜蜂看着
         tryCatchWait();
     }
 
-    public synchronized void eat(String name) {
-        if(capacity >= 20){ // 大于等于 20 一口吃掉
-            tryCatchSleep(100L);
-            System.out.println(name + " --- " + capacity);
-            capacity = 0;
-            notifyAll();
-        } else if(capacity <= 0){ // 小于等于 0，空的，进入等待
+    public synchronized void clear(String name) {
+        while(capacity < THRESHOLD){
             tryCatchWait();
-        } else { // 唤醒
-            notifyAll();
         }
+        System.out.println(name + " --- " + capacity);
+        capacity = EMPTY_CAPACITY;
+        notifyAll();
     }
 
     private void tryCatchWait(){

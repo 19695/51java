@@ -17,7 +17,7 @@ public class Bear extends Thread {
 
     public void run(){
         while(true){
-            bucket.eat(name);
+            bucket.clear(name);
         }
     }
 }

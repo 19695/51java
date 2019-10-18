@@ -3,9 +3,7 @@ package com.learn.exec.second;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @author Colm
@@ -29,6 +27,45 @@ public class TestTreeMap {
         System.out.println();
         // 后序
         backOrderTravle(getRoot(map));
+        System.out.println();
+        // 层序
+        levelOrderTravel(getRoot(map));
+    }
+
+    // 将层序遍历入参封装，与前中后序遍历看齐
+    public static void levelOrderTravel(Map.Entry entry) throws Exception {
+        List<Map.Entry> list = new ArrayList<>();
+        list.add(entry);
+        levelTravel(list);
+    }
+
+    // 层序遍历
+    public static void levelTravel(List<Map.Entry> entries) throws Exception {
+        if(!entries.isEmpty()){
+//            list.size() == 0 和 list.isEmpty() 是什么关系？区别？
+            for(Map.Entry entry : entries){
+                System.out.print(getEntryKey(entry) + " ");
+            }
+            System.out.println();
+            levelTravel(getChildren(entries));
+        }
+    }
+
+    // 获取子节点，包括左右两个
+    public static List getChildren(List<Map.Entry> entries) throws Exception {
+        if(entries.size() != 0){
+            List<Map.Entry> list = new ArrayList<>();
+            for(Map.Entry entry : entries){
+                if(getLeft(entry) != null){
+                    list.add(getLeft(entry));
+                }
+                if(getRight(entry) != null){
+                    list.add(getRight(entry));
+                }
+            }
+            return list;
+        }
+        return null;
     }
 
     // 递归实现前序遍历—— 根左右

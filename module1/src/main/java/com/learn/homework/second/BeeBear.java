@@ -12,13 +12,14 @@ package com.learn.homework.second;
  */
 public class BeeBear {
     public static void main(String[] args){
+        int beeNum = 30;
         Bucket bucket = new Bucket();
-        for(int i = 1; i <= 100; i++){
-            Bee bee = new Bee("bee" + i + " ==> ", bucket);
+        for(int i = 1; i <= beeNum; i++){
+            Bee bee = new Bee("bee" + i + " \t==> ", bucket);
             bee.start();
         }
-        Bear bear1 = new Bear("bear1", bucket);
-        Bear bear2 = new Bear("bear2", bucket);
+        Bear bear1 = new Bear(">>>>>>>>>>\tbear1", bucket);
+        Bear bear2 = new Bear(">>>>>>>>>>\tbear2", bucket);
         bear1.start();
         bear2.start();
     }

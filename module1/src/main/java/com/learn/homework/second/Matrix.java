@@ -19,6 +19,9 @@ public class Matrix {
 
         int[][] matrix3 = {{1, 5, 7},{2, 3, 1},{4, 6, 8}};
         printMatrix(getResult(matrix3));
+
+        int[][] matrix4 = {{1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3 ,4}, {1, 2, 3 ,4}};
+        printMatrix(getResult(matrix4));
     }
 
     // 矩阵打印
@@ -29,6 +32,7 @@ public class Matrix {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     // 矩阵计算
@@ -43,12 +47,13 @@ public class Matrix {
         for(int k = 0; k < count; k++){ // 外标
             for(int i = 0; i < count; i++){ // 中标
 //                System.out.println(k + "," + i); // 结果矩阵的下标
-                sum = 0;
+//                sum = 0;
                 for(int j = 0; j < count; j++){ // 内标
 //                    System.out.println("   " + k + "," + j + "*" + j + "," + i); // 计算方式
-                    sum += (matrix1[k][j] * matrix1[j][i]);
+//                    sum += (matrix1[k][j] * matrix1[j][i]);
+                    result[k][j] += (matrix1[k][j] * matrix1[j][i]);
                 }
-                result[k][i] = sum;
+//                result[k][i] = sum;
 //                System.out.println();
             }
         }
