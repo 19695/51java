@@ -1,5 +1,13 @@
 package com.learn.homework.third;
 
+/**
+ * 线程死锁
+ *      this.wait(); vs this.wait(10);  有个超时时间，不会死锁
+ *
+ *      this.notify(); vs this.notifyAll(); 每次都全部唤醒
+ *
+ */
+
 class DeadLockDemo {
 	public static void main(String[] args) {
 		//使用java中集合类，List是列表。
@@ -64,8 +72,8 @@ class DeadLockDemo {
 					String name = Thread.currentThread().getName();
 					while (list.size() == MAX) {
 						System.out.println(name + ".wait()");
-						this.wait(10);
-//						this.wait();
+//						this.wait(10);
+						this.wait();
 					}
 					list.add(n);
 					System.out.println(name + " + : " + n);
@@ -84,8 +92,8 @@ class DeadLockDemo {
 					String name = Thread.currentThread().getName();
 					while (list.size() == 0) {
 						System.out.println(name + ".wait()");
-						this.wait(10);
-//						this.wait();
+//						this.wait(10);
+						this.wait();
 					}
 					int i = list.remove(0);
 					System.out.println(name + " - : " + i);
