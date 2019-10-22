@@ -15,7 +15,13 @@ import java.net.SocketAddress;
 public class MyServer {
     public static void main(String[] args) throws IOException {
         // 服务器套接字
+        // 绑定到 0.0.0.0，通配地址
         ServerSocket ss = new ServerSocket(8888);
+
+        // 端口最大到 65535
+        // 绑定到指定地址
+        ServerSocket ss1 = new ServerSocket();
+        ss1.bind(new InetSocketAddress("127.0.0.1", 8888));
 
         while (true){
             System.out.println("开始接收...");
