@@ -1,4 +1,4 @@
-package com.learn.gof.singleton;
+package com.learn.exec.third.gof.singleton;
 
 /**
  * 单例模式——饿汉式

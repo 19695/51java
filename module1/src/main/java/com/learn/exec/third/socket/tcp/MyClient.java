@@ -1,4 +1,4 @@
-package com.learn.socket.tcp;
+package com.learn.exec.third.socket.tcp;
 
 import java.io.OutputStream;
 import java.net.Socket;

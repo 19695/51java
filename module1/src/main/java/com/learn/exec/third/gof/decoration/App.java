@@ -1,4 +1,4 @@
-package com.learn.gof.decoration;
+package com.learn.exec.third.gof.decoration;
 
 /**
  * 装饰方法测试

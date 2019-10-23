@@ -1,4 +1,4 @@
-package com.learn.nio;
+package com.learn.exec.third.nio;
 
 import org.junit.Test;
 
@@ -40,8 +40,10 @@ public class RelativePath {
     // 模拟 cmd 的 dir 方法
     public static void dir(File file){
         String[] files = file.list();
+        System.out.println("----->");
         for(String f : files){
             System.out.println(f);
         }
+        System.out.println("<-----");
     }
 }

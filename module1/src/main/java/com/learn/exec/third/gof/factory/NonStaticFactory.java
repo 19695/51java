@@ -1,4 +1,4 @@
-package com.learn.gof.factory;
+package com.learn.exec.third.gof.factory;
 
 /**
  * 非静态工厂方法

@@ -1,4 +1,4 @@
-package com.learn.nio;
+package com.learn.exec.third.nio;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,12 +15,12 @@ import java.nio.channels.FileChannel;
  */
 public class NIODemo {
     public static void main(String[] args) throws Exception {
-        File inFile = new File("src/test/IOFile/nio/source");
+        File inFile = new File("D:/Workspaces/IntelliJIDEA/51java/module1/src/test/IOFile/nio/source");
         FileInputStream fin = new FileInputStream(inFile);
         // 通道接到输入流
         FileChannel finChannel = fin.getChannel();
 
-        File outFile = new File("src/test/IOFile/nio/target.txt");
+        File outFile = new File("D:\\Workspaces\\IntelliJIDEA\\51java\\module1\\src\\test\\IOFile\\nio\\target.txt");
         FileOutputStream fout = new FileOutputStream(outFile);
         //通道接到输出流
         FileChannel foutChannel = fout.getChannel();
@@ -39,3 +39,4 @@ public class NIODemo {
         fin.close();
     }
 }
+
