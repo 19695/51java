@@ -34,17 +34,18 @@ public class MyNIOServer {
         // 在挑选器中注册服务器通道
         ssc.register(selector, SelectionKey.OP_ACCEPT);
 
-
         for (; ; ) {
-            try {
-                // 开始挑选
+
+            // 开始挑选
 //            System.out.println("开始挑选...");
-                selector.select();
-                // 得到挑选出来的集合
-                Set<SelectionKey> keys = selector.selectedKeys();
-                Iterator<SelectionKey> it = keys.iterator();
-                while (it.hasNext()) {
-                    SelectionKey key = it.next();
+            selector.select();
+            // 得到挑选出来的集合
+            Set<SelectionKey> keys = selector.selectedKeys();
+            Iterator<SelectionKey> it = keys.iterator();
+
+            while (it.hasNext()) {
+                SelectionKey key = it.next();
+                try {
                     // 是否是可接受的
                     if (key.isAcceptable()) {
                         // 接受连接
@@ -78,12 +79,14 @@ public class MyNIOServer {
                     }
                     // 移除当前 key
                     it.remove();
+                } catch (Exception e){
+                    // 注销 key 锁对应的通道
+                    key.cancel();
+                } finally {
+                    it.remove();
                 }
-            } catch (Exception e){
-//                e.printStackTrace();
             }
         }
-
     }
 
     /*
