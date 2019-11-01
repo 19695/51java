@@ -1,25 +1,54 @@
 package com.learn.exec.fifth.qq.server;
 
+import com.learn.exec.fifth.qq.util.ConversionUtil;
 import com.learn.exec.fifth.qq.util.IConstants;
+import com.learn.exec.fifth.qq.util.RemoteAddrUtil;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * QQ 服务器
+ * QQ 服务器，单例模式
  *
  * @author Colm
  * @create 2019/10/30
  */
 public class QQServer {
+
+    //单例模式懒汉式
+    private static QQServer instance;
+
+    private QQServer(){
+
+    }
+
+    public static QQServer getInstance(){
+        if(instance != null){
+            return instance;
+        }
+        synchronized (QQServer.class){
+            if(instance == null){
+                instance = new QQServer();
+            }
+        }
+        return instance;
+    }
+
+    // 所有客户端集合
+    private HashMap<String, SocketChannel> allClients = new HashMap<>();
+
     /*
         启动服务器
      */
@@ -48,6 +77,7 @@ public class QQServer {
                 while (it.hasNext()){
                     SelectionKey key = it.next();
                     try {
+
                         // 接受新连接，注册通道。只有服务器通道用 isAcceptable
                         if(key.isAcceptable()){
                             SocketChannel sc0 = ssc.accept();
@@ -59,7 +89,12 @@ public class QQServer {
                             ReentrantLock lock = new ReentrantLock();
                             // 将 key 和 lock 关联
                             key0.attach(lock);
+                            // 得到远端地址字符串
+                            String remoteAddr = RemoteAddrUtil.getRemoteAddr(sc0.socket());
+                            // 将信息放置到 allClients 集合
+                            allClients.put(remoteAddr, sc0);
                         }
+
                         // 常规通道
                         if(key.isReadable()){
                             // 将处理的过程交给线程池
@@ -68,6 +103,8 @@ public class QQServer {
                     } catch (Exception e){
                         // 出错时注销 key
                         key.cancel();
+                        // key 出现异常时被注销，即用户被下线。应该将用户从 allClients 集合移除
+                        allClients.remove(RemoteAddrUtil.getRemoteAddr(((SocketChannel)key.channel()).socket()));
                     } finally {
                         // 无论成功还是失败都将 key 从迭代器中移除
                         it.remove();
@@ -78,5 +115,15 @@ public class QQServer {
             // 抓取通道连接、挑选器注册异常
             e.printStackTrace();
         }
+    }
+
+    // 获取好友列表
+    public List<String> getFriendsList(){
+        return new ArrayList<String>(allClients.keySet());
+    }
+
+    // 获取好友列表字节数组
+    public byte[] getFriendsBytes() throws IOException {
+        return ConversionUtil.serialObject(getFriendsList());
     }
 }

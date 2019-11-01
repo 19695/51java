@@ -1,6 +1,6 @@
 package com.learn.exec.fifth.qq;
 
-import com.learn.exec.fifth.qq.util.IntBytesConversion;
+import com.learn.exec.fifth.qq.util.ConversionUtil;
 import com.learn.exec.fifth.qq.util.PropertiesUtil;
 import org.junit.Test;
 
@@ -24,6 +24,6 @@ public class TestProperties {
      */
     @Test
     public void testIntBytesConversion(){
-        System.out.println(IntBytesConversion.bytes2Int(IntBytesConversion.int2Bytes(-1)));
+        System.out.println(ConversionUtil.bytes2Int(ConversionUtil.int2Bytes(-1)));
     }
 }

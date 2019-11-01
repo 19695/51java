@@ -3,6 +3,8 @@ package com.learn.exec.fifth.qq.util;
 import com.learn.exec.fifth.qq.common.BaseMessage;
 import com.learn.exec.fifth.qq.common.ServerChatMessage;
 import com.learn.exec.fifth.qq.common.ServerChatsMessage;
+import com.learn.exec.fifth.qq.common.ServerRefreshMessage;
+import com.learn.exec.fifth.qq.server.QQServer;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -33,7 +35,7 @@ public class MessageFactory {
                 ByteBuffer buffer4 = ByteBuffer.allocate(4);
                 sc.read(buffer4);
                 // 获取消息长度
-                int msgLen = IntBytesConversion.bytes2Int(buffer4.array());
+                int msgLen = ConversionUtil.bytes2Int(buffer4.array());
                 // n 个字节缓冲区
                 ByteBuffer bufferN = ByteBuffer.allocate(msgLen);
                 sc.read(bufferN);
@@ -43,6 +45,7 @@ public class MessageFactory {
                 scsm.setSendAddr(RemoteAddrUtil.getRemoteAddrBytes(sc.socket()));
                 return scsm;
             }
+
             // 私聊
             case BaseMessage.CLIENT_TO_SERVER_CHAT:
             {
@@ -65,16 +68,25 @@ public class MessageFactory {
                 sc.read(buffer4);
                 buffer4.flip();
                 // 获取内容长度
-                int msgLen = IntBytesConversion.bytes2Int(buffer4.array());
+                int msgLen = ConversionUtil.bytes2Int(buffer4.array());
                 ByteBuffer bufferN = ByteBuffer.allocate(msgLen);
                 bufferN.flip();
                 // 组装服务器端消息
                 scm.setMessage(bufferN.array());
                 return scm;
             }
+
             // 刷新好友
             case BaseMessage.CLIENT_TO_SERVER_REFRESH_FRIENDS:
-                break;
+            {
+                ServerRefreshMessage srm = new ServerRefreshMessage();
+                /*
+                 通过 QQServer 单例模式可以直接操作 QQServer 中的好友列表（allClients）
+                 QQServer 可能被很多地方调用，每次调用都新建一个不合适
+                 */
+                srm.setFriendBytes(QQServer.getInstance().getFriendsBytes());
+                return srm;
+            }
         }
         return null;
     }

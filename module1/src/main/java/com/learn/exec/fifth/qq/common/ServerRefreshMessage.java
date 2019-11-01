@@ -8,14 +8,14 @@ package com.learn.exec.fifth.qq.common;
  */
 public class ServerRefreshMessage extends BaseMessage {
     // 好友列表
-    private byte[] friends;
+    private byte[] friendBytes;
 
-    public byte[] getFriends() {
-        return friends;
+    public byte[] getFriendBytes() {
+        return friendBytes;
     }
 
-    public void setFriends(byte[] friends) {
-        this.friends = friends;
+    public void setFriendBytes(byte[] friendBytes) {
+        this.friendBytes = friendBytes;
     }
 
     @Override
