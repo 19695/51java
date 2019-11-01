@@ -1,6 +1,5 @@
 package com.learn.exec.fifth.qq.util;
 
-import java.io.Console;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
