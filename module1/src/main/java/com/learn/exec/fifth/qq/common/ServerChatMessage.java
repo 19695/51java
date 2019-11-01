@@ -11,6 +11,16 @@ public class ServerChatMessage extends BaseMessage {
     private byte[] message;
     // 发送者地址
     private byte[] sendAddr;
+    // 接收者地址
+    private byte[] recvAddr;
+
+    public byte[] getRecvAddr() {
+        return recvAddr;
+    }
+
+    public void setRecvAddr(byte[] recvAddr) {
+        this.recvAddr = recvAddr;
+    }
 
     public byte[] getMessage() {
         return message;
