@@ -1,5 +1,9 @@
 package com.learn.exec.fifth.qq.common;
 
+import com.learn.exec.fifth.qq.util.ConversionUtil;
+
+import java.io.ByteArrayOutputStream;
+
 /**
  * 客户端群聊消息
  *
@@ -31,5 +35,22 @@ public class ClientChatsMessage extends BaseMessage {
     @Override
     public int getMessageType() {
         return CLIENT_TO_SERVER_CHATS;
+    }
+
+    @Override
+    public byte[] popPack() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        /*
+            Writes the specified byte to this byte array output stream.
+            buf[count] = (byte) b;
+            将 int 强转 byte
+         */
+        // 消息类型: 1 字节
+        baos.write(getMessageType());
+        // 消息长度: 4 字节
+        baos.write(ConversionUtil.int2Bytes(message.toCharArray().length));
+        // 消息内容
+        baos.write(message.getBytes());
+        return baos.toByteArray();
     }
 }

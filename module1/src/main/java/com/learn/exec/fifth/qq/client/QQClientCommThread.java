@@ -6,6 +6,7 @@ import com.learn.exec.fifth.qq.common.ClientRefreshMessage;
 import com.learn.exec.fifth.qq.util.IConstants;
 import com.learn.exec.fifth.qq.util.MessageFactory;
 
+import java.io.IOException;
 import java.net.Socket;
 
 /**
@@ -18,10 +19,12 @@ public class QQClientCommThread extends Thread {
 
     public QQClientChatsUI ui;
 
+    private Socket sock;
+
     @Override
     public void run() {
         try{
-            Socket sock = new Socket(IConstants.QQ_CLIENT_SERVER_IP, IConstants.QQ_CLIENT_SERVER_PORT);
+            sock = new Socket(IConstants.QQ_CLIENT_SERVER_IP, IConstants.QQ_CLIENT_SERVER_PORT);
             for(;;){
                 BaseMessage msg = MessageFactory.parseServerMessageFromSocket(sock);
                 if(msg != null){
@@ -52,5 +55,15 @@ public class QQClientCommThread extends Thread {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 发送消息
+     * @param msg
+     * @throws Exception
+     */
+    public void sendMessage(BaseMessage msg) throws Exception {
+        sock.getOutputStream().write(msg.popPack());
+        sock.getOutputStream().flush();
     }
 }

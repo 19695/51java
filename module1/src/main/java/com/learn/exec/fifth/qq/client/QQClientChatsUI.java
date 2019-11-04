@@ -1,6 +1,6 @@
 package com.learn.exec.fifth.qq.client;
 
-import com.learn.exec.fifth.qq.common.ServerRefreshMessage;
+import com.learn.exec.fifth.qq.common.ClientChatsMessage;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -14,6 +14,9 @@ import java.util.List;
  * @create 2019/11/4
  */
 public class QQClientChatsUI extends JFrame implements ActionListener {
+
+    // 通信线程
+    public QQClientCommThread commThread;
 
     //历史聊天区
     private JTextArea taHistory;
@@ -84,8 +87,27 @@ public class QQClientChatsUI extends JFrame implements ActionListener {
         });
     }
 
+    /**
+     * 按钮的点击事件
+     * @param e
+     */
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
+        // 发送按钮
+        if(source == btnSend){
+            String text = taInputMessage.getText();
+            if(text != null && !text.trim().equalsIgnoreCase("")){
+                ClientChatsMessage ccsm = new ClientChatsMessage();
+                ccsm.setMessage(text);
+                taInputMessage.setText("");
+                try {
+                    commThread.sendMessage(ccsm);
+                    System.out.println("发送成功");
+                } catch (Exception ex) {
+                    System.out.println("发送失败" + ex.getMessage());
+                }
+            }
+        }
     }
 
     /**

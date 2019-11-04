@@ -25,4 +25,9 @@ public class ClientRefreshMessage extends BaseMessage {
     public int getMessageType() {
         return CLIENT_TO_SERVER_REFRESH_FRIENDS;
     }
+
+    @Override
+    public byte[] popPack() throws Exception {
+        return new byte[]{(byte) getMessageType()};
+    }
 }

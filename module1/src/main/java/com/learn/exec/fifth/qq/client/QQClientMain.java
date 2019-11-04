@@ -12,5 +12,6 @@ public class QQClientMain {
         QQClientCommThread thread = new QQClientCommThread();
         thread.start();
         thread.ui = ui;
+        ui.commThread = thread;
     }
 }
