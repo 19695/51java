@@ -1,5 +1,11 @@
 package com.learn.exec.fifth.qq.common;
 
+import com.learn.exec.fifth.qq.util.ConversionUtil;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 /**
  * 服务器端私聊
  *
@@ -41,5 +47,21 @@ public class ServerChatMessage extends BaseMessage {
     @Override
     public int getMessageType() {
         return SERVER_TO_CLIENT_CHAT;
+    }
+
+    // 组装报文
+    public byte[] popPack() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // 消息类型
+        baos.write(getMessageType());
+        // 发送者地址长度
+        baos.write(sendAddr.length);
+        // 发送者地址
+        baos.write(sendAddr);
+        // 消息长度
+        baos.write(ConversionUtil.int2Bytes(message.length));
+        // 消息内容
+        baos.write(message);
+        return baos.toByteArray();
     }
 }

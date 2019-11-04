@@ -21,4 +21,9 @@ public abstract class BaseMessage {
     public static final int SERVER_TO_CLIENT_REFRESH_FRIENDS = 5;
 
     public abstract int getMessageType();
+
+    // 组装报文
+    public byte[] popPack() throws Exception {
+        return null;
+    }
 }

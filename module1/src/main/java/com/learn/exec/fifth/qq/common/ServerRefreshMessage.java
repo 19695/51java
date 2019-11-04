@@ -1,5 +1,9 @@
 package com.learn.exec.fifth.qq.common;
 
+import com.learn.exec.fifth.qq.util.ConversionUtil;
+
+import java.io.ByteArrayOutputStream;
+
 /**
  * 服务器端刷新好友
  *
@@ -21,5 +25,17 @@ public class ServerRefreshMessage extends BaseMessage {
     @Override
     public int getMessageType() {
         return SERVER_TO_CLIENT_REFRESH_FRIENDS;
+    }
+
+    @Override
+    public byte[] popPack() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // 消息类型
+        baos.write(getMessageType());
+        // 好友列表消息长度
+        baos.write(ConversionUtil.int2Bytes(friendBytes.length));
+        // 好友列表消息
+        baos.write(friendBytes);
+        return baos.toByteArray();
     }
 }

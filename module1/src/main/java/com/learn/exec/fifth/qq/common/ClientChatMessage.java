@@ -11,6 +11,16 @@ public class ClientChatMessage extends BaseMessage {
     private String message;
     // 接收端地址
     private String recvAddr;
+    // 发送者地址
+    private String sendAddress;
+
+    public String getSendAddress() {
+        return sendAddress;
+    }
+
+    public void setSendAddress(String sendAddress) {
+        this.sendAddress = sendAddress;
+    }
 
     public String getRecvAddr() {
         return recvAddr;

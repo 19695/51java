@@ -1,5 +1,7 @@
 package com.learn.exec.fifth.qq.server;
 
+import com.learn.exec.fifth.qq.common.BaseMessage;
+import com.learn.exec.fifth.qq.common.ServerRefreshMessage;
 import com.learn.exec.fifth.qq.util.ConversionUtil;
 import com.learn.exec.fifth.qq.util.IConstants;
 import com.learn.exec.fifth.qq.util.RemoteAddrUtil;
@@ -7,6 +9,7 @@ import com.learn.exec.fifth.qq.util.RemoteAddrUtil;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -81,6 +84,7 @@ public class QQServer {
                         // 接受新连接，注册通道。只有服务器通道用 isAcceptable
                         if(key.isAcceptable()){
                             SocketChannel sc0 = ssc.accept();
+                            System.out.println("有人上线了!!!");
                             // 设置通道阻塞模式
                             sc0.configureBlocking(IConstants.QQ_SERVER_CHANNEL_BLOCKING_MODE);
                             // 将通道注册到挑选器
@@ -93,6 +97,8 @@ public class QQServer {
                             String remoteAddr = RemoteAddrUtil.getRemoteAddr(sc0.socket());
                             // 将信息放置到 allClients 集合
                             allClients.put(remoteAddr, sc0);
+                            // 广播好友列表
+                            broadCastMessage(getFriendListMessage());
                         }
 
                         // 常规通道
@@ -122,8 +128,37 @@ public class QQServer {
         return new ArrayList<String>(allClients.keySet());
     }
 
-    // 获取好友列表字节数组
+    // 返回通过串行化得到的好友列表字节数组
     public byte[] getFriendsBytes() throws IOException {
         return ConversionUtil.serialObject(getFriendsList());
+    }
+
+    // 向所有 client 广播消息
+    public void broadCastMessage(BaseMessage msg){
+        System.out.println("广播消息");
+        for(SocketChannel sc : allClients.values()){
+            try {
+                sc.write(ByteBuffer.wrap(msg.popPack()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // 转发消息(单发消息)
+    public void forwardMessage(BaseMessage msg, String addr) throws Exception {
+        // 从所有客户端中找到对应的 SocketChannel
+        SocketChannel sc = allClients.get(addr);
+        // 存在对应的 SocketChannel
+        if(sc != null){
+            sc.write(ByteBuffer.wrap(msg.popPack()));
+        }
+    }
+
+    // 获取好友列表信息
+    public ServerRefreshMessage getFriendListMessage() throws IOException {
+        ServerRefreshMessage srm = new ServerRefreshMessage();
+        srm.setFriendBytes(getFriendsBytes());
+        return srm;
     }
 }

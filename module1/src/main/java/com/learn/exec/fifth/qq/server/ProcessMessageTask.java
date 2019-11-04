@@ -1,5 +1,10 @@
 package com.learn.exec.fifth.qq.server;
 
+import com.learn.exec.fifth.qq.common.BaseMessage;
+import com.learn.exec.fifth.qq.common.ServerChatMessage;
+import com.learn.exec.fifth.qq.util.MessageFactory;
+import com.learn.exec.fifth.qq.util.RemoteAddrUtil;
+
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.concurrent.locks.ReentrantLock;
@@ -20,6 +25,8 @@ public class ProcessMessageTask implements Runnable {
 
     @Override
     public void run() {
+
+        QQServer server = QQServer.getInstance();
         // 获取套接字通道
         SocketChannel sc = (SocketChannel) key.channel();
         // 获取和 key 绑定的 lock
@@ -30,8 +37,29 @@ public class ProcessMessageTask implements Runnable {
          */
         boolean b = lock.tryLock();
         if(b){
-
-            //todo 没做完的任务写上 todo 可以从 IDEA 的 TODO　工具窗口找到
+            try {
+                BaseMessage msg = MessageFactory.parseClientMessageFromChannel(sc);
+                if(msg != null){
+                    switch (msg.getMessageType()){
+                        // 群聊
+                        case BaseMessage.SERVER_TO_CLIENT_CHATS :
+                            server.broadCastMessage(msg);
+                            break;
+                        // 私聊
+                        case BaseMessage.SERVER_TO_CLIENT_CHAT :
+                            //todo
+                            server.forwardMessage(msg, new String(((ServerChatMessage)msg).getRecvAddr()));
+                            break;
+                        // 刷新好友列表
+                        case BaseMessage.SERVER_TO_CLIENT_REFRESH_FRIENDS :
+                            //todo
+                            server.forwardMessage(msg, RemoteAddrUtil.getRemoteAddr(sc.socket()));
+                            break;
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
 
             // 拿到锁以后要记得解锁
             lock.unlock();

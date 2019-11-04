@@ -22,4 +22,12 @@ public class IConstants {
     // 线程池核心数
     private static final String QQ_SERVER_THREAD_POOL_CORES_NAME = "qq.server.thread.pool.cores";
     public static final int QQ_SERVER_THREAD_POOL_CORES = PropertiesUtil.getIntVal(QQ_SERVER_THREAD_POOL_CORES_NAME);
+
+    // 客户端配置的服务器 ip
+    private static final String QQ_CLIENT_SERVER_IP_NAME = "qq.client.server.ip";
+    public static final String QQ_CLIENT_SERVER_IP = PropertiesUtil.getStringVal(QQ_CLIENT_SERVER_IP_NAME);
+
+    // 客户端配置的服务器 port
+    private static final String QQ_CLIENT_SERVER_PORT_NAME = "qq.client.server.port";
+    public static final int QQ_CLIENT_SERVER_PORT = PropertiesUtil.getIntVal(QQ_CLIENT_SERVER_PORT_NAME);
 }

@@ -9,6 +9,16 @@ package com.learn.exec.fifth.qq.common;
 public class ClientChatsMessage extends BaseMessage {
     // 消息内容
     private String message;
+    // 发送者地址
+    private String sendAddress;
+
+    public String getSendAddress(){
+        return sendAddress;
+    }
+
+    public void setSendAddress(String sendAddress) {
+        this.sendAddress = sendAddress;
+    }
 
     public String getMessage() {
         return message;
