@@ -53,11 +53,11 @@ public class ClientChatMessage extends BaseMessage {
         // 消息类型: 1 字节
         baos.write(getMessageType());
         // 接收者地址长度
-        baos.write(recvAddr.toCharArray().length);
+        baos.write(recvAddr.getBytes().length);
         // 接收者地址
         baos.write(recvAddr.getBytes());
         // 消息内容长度
-        baos.write(ConversionUtil.int2Bytes(message.toCharArray().length));
+        baos.write(ConversionUtil.int2Bytes(message.getBytes().length));
         // 消息内容
         baos.write(message.getBytes());
         return baos.toByteArray();

@@ -9,7 +9,7 @@ import java.net.Socket;
  * @author Colm
  * @create 2019/11/1
  */
-public class RemoteAddrUtil {
+public class AddressUtil {
     // 获取远端主机
     public static String getRemoteHost(Socket sock){
         return ((InetSocketAddress)sock.getRemoteSocketAddress()).getAddress().getHostAddress();
@@ -28,5 +28,15 @@ public class RemoteAddrUtil {
     // 获取远端地址的字节数组
     public static byte[] getRemoteAddrBytes(Socket sock){
         return getRemoteAddr(sock).getBytes();
+    }
+
+    // 获取本地地址
+    public static String getLocalAddr(Socket sock){
+        /*
+         * return sock.getLocalAddress() + " : " + sock.getLocalPort();
+         * /127.0.0.1 : 56046
+         * 多一个 /
+         */
+        return sock.getLocalAddress().getHostAddress() + " : " + sock.getLocalPort(); // 127.0.0.1 : 56046
     }
 }

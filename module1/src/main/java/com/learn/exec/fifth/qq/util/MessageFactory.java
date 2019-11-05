@@ -34,7 +34,6 @@ public class MessageFactory {
             case BaseMessage.CLIENT_TO_SERVER_CHATS:
             // 加上作用域范围限制
             {
-                ServerChatsMessage scsm = new ServerChatsMessage();
                 // 四字节缓冲区
                 ByteBuffer buffer4 = ByteBuffer.allocate(4);
                 sc.read(buffer4);
@@ -44,9 +43,10 @@ public class MessageFactory {
                 ByteBuffer bufferN = ByteBuffer.allocate(msgLen);
                 sc.read(bufferN);
                 // 组装服务器端消息
+                ServerChatsMessage scsm = new ServerChatsMessage();
                 scsm.setMessage(bufferN.array());
                 // 组装服务器端发送者地址
-                scsm.setSendAddr(RemoteAddrUtil.getRemoteAddrBytes(sc.socket()));
+                scsm.setSendAddr(AddressUtil.getRemoteAddrBytes(sc.socket()));
                 return scsm;
             }
 
@@ -66,7 +66,7 @@ public class MessageFactory {
                 // 组装服务器端接收者地址
                 scm.setRecvAddr(bufferAddr.array());
                 // 组装服务器端发送者地址
-                scm.setSendAddr(RemoteAddrUtil.getRemoteAddrBytes(sc.socket()));
+                scm.setSendAddr(AddressUtil.getRemoteAddrBytes(sc.socket()));
                 // 四字节缓冲区
                 ByteBuffer buffer4 = ByteBuffer.allocate(4);
                 sc.read(buffer4);
@@ -77,6 +77,8 @@ public class MessageFactory {
                 bufferN.flip();
                 // 组装服务器端消息
                 scm.setMessage(bufferN.array());
+                //todo print > scm.msg
+                System.out.println(scm.getMessage());
                 return scm;
             }
 
@@ -96,7 +98,7 @@ public class MessageFactory {
         return null;
     }
 
-    // 从 socket 中解析服务器消息
+    // 从 socket 中解析服务器消息,转换成客户端消息
     public static BaseMessage parseServerMessageFromSocket(Socket sock) throws IOException, ClassNotFoundException {
         // 从 socket 中获取 InputStream
         InputStream in = sock.getInputStream();
@@ -169,7 +171,6 @@ public class MessageFactory {
                     客户端使用反串行化将好友列表信息进行读取
                  */
                 List<String> friendList = (List<String>) ConversionUtil.deserialBytes(bytesN);
-
                 ClientRefreshMessage crm = new ClientRefreshMessage();
                 crm.setFriendList(friendList);
                 return crm;

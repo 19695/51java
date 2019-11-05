@@ -2,9 +2,11 @@ package com.learn.exec.fifth.qq.server;
 
 import com.learn.exec.fifth.qq.common.BaseMessage;
 import com.learn.exec.fifth.qq.common.ServerChatMessage;
+import com.learn.exec.fifth.qq.util.ConversionUtil;
 import com.learn.exec.fifth.qq.util.MessageFactory;
-import com.learn.exec.fifth.qq.util.RemoteAddrUtil;
+import com.learn.exec.fifth.qq.util.AddressUtil;
 
+import java.io.IOException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.concurrent.locks.ReentrantLock;
@@ -39,24 +41,30 @@ public class ProcessMessageTask implements Runnable {
         if(b){
             try {
                 BaseMessage msg = MessageFactory.parseClientMessageFromChannel(sc);
-                if(msg != null){
-                    switch (msg.getMessageType()){
+                if (msg != null) {
+                    switch (msg.getMessageType()) {
                         // 群聊
-                        case BaseMessage.SERVER_TO_CLIENT_CHATS :
+                        case BaseMessage.SERVER_TO_CLIENT_CHATS:
                             server.broadCastMessage(msg);
                             break;
                         // 私聊
-                        case BaseMessage.SERVER_TO_CLIENT_CHAT :
-                            //todo
-                            server.forwardMessage(msg, new String(((ServerChatMessage)msg).getRecvAddr()));
+                        case BaseMessage.SERVER_TO_CLIENT_CHAT:
+                            server.forwardMessage(msg, new String(((ServerChatMessage) msg).getRecvAddr()));
                             break;
                         // 刷新好友列表
-                        case BaseMessage.SERVER_TO_CLIENT_REFRESH_FRIENDS :
-                            //todo
-                            server.forwardMessage(msg, RemoteAddrUtil.getRemoteAddr(sc.socket()));
+                        case BaseMessage.SERVER_TO_CLIENT_REFRESH_FRIENDS:
+                            server.forwardMessage(msg, AddressUtil.getRemoteAddr(sc.socket()));
                             break;
                     }
                 }
+            } catch (IOException ioe){
+                String addr = AddressUtil.getRemoteAddr(sc.socket());
+                //todo print > 远端链接已关闭
+                System.out.println(addr + " - 远端链接已关闭!");
+                server.removeClient(addr);
+                server.broadcastFriendList();
+                //todo 停下已关闭链接的线程
+                Thread.currentThread().stop();
             } catch (Exception e){
                 e.printStackTrace();
             }

@@ -41,13 +41,12 @@ public class PropertiesUtil {
      * @return
      */
     public static int getIntVal(String name){
-        int res = -1; // 代表异常
         try {
-            res = Integer.parseInt(prope.getProperty(name));
+            return Integer.parseInt(prope.getProperty(name));
         } catch (Exception e) {
-            System.out.println("类型转换异常");
+            System.out.println("int 类型转换异常");
         }
-        return res;
+        return 0;
     }
 
     /**
@@ -59,8 +58,20 @@ public class PropertiesUtil {
         try {
             return prope.getProperty(name).equalsIgnoreCase("true");
         } catch (Exception e){
-            System.out.println("类型转换异常");
+            System.out.println("boolean 类型转换异常");
         }
         return false; // 获取失败后，默认给 false
+    }
+
+    /**
+     * 返回 long 型值
+     */
+    public static long getLongVal(String name){
+        try {
+            return Long.parseLong(prope.getProperty(name));
+        } catch (Exception e){
+            System.out.println("long 类型转换异常");
+        }
+        return 0;
     }
 }

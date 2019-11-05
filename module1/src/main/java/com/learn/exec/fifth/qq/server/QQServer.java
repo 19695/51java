@@ -4,11 +4,10 @@ import com.learn.exec.fifth.qq.common.BaseMessage;
 import com.learn.exec.fifth.qq.common.ServerRefreshMessage;
 import com.learn.exec.fifth.qq.util.ConversionUtil;
 import com.learn.exec.fifth.qq.util.IConstants;
-import com.learn.exec.fifth.qq.util.RemoteAddrUtil;
+import com.learn.exec.fifth.qq.util.AddressUtil;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -94,11 +93,12 @@ public class QQServer {
                             // 将 key 和 lock 关联
                             key0.attach(lock);
                             // 得到远端地址字符串
-                            String remoteAddr = RemoteAddrUtil.getRemoteAddr(sc0.socket());
+                            String remoteAddr = AddressUtil.getRemoteAddr(sc0.socket());
                             // 将信息放置到 allClients 集合
                             allClients.put(remoteAddr, sc0);
                             // 广播好友列表
-                            broadCastMessage(getFriendListMessage());
+                            broadcastFriendList();
+//                            broadCastMessage(getFriendListMessage());
                         }
 
                         // 常规通道
@@ -110,14 +110,17 @@ public class QQServer {
                         // 出错时注销 key
                         key.cancel();
                         // key 出现异常时被注销，即用户被下线。应该将用户从 allClients 集合移除
-                        allClients.remove(RemoteAddrUtil.getRemoteAddr(((SocketChannel)key.channel()).socket()));
+                        removeClient(AddressUtil.getRemoteAddr(((SocketChannel)key.channel()).socket()));
+//                        allClients.remove(AddressUtil.getRemoteAddr(((SocketChannel)key.channel()).socket()));
                     } finally {
                         // 无论成功还是失败都将 key 从迭代器中移除
                         it.remove();
                     }
                 }
+                // 休眠毫秒数,减轻 cpu 轮询负担
+                Thread.sleep(IConstants.QQ_SERVER_ROUNDROBIN_INTERVAL_MILLISECOND);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             // 抓取通道连接、挑选器注册异常
             e.printStackTrace();
         }
@@ -160,5 +163,24 @@ public class QQServer {
         ServerRefreshMessage srm = new ServerRefreshMessage();
         srm.setFriendBytes(getFriendsBytes());
         return srm;
+    }
+
+    // 广播好友列表消息
+    public void broadcastFriendList(){
+        try {
+            ServerRefreshMessage srm = getFriendListMessage();
+            broadCastMessage(srm);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 将指定客户端从 allClients 中移除
+     *
+     * @param addr
+     */
+    public void removeClient(String addr){
+        allClients.remove(addr);
     }
 }

@@ -9,9 +9,8 @@ package com.learn.exec.fifth.qq.client;
 public class QQClientMain {
     public static void main(String[] args){
         QQClientChatsUI ui = new QQClientChatsUI();
-        QQClientCommThread thread = new QQClientCommThread();
+        QQClientCommThread thread = new QQClientCommThread(ui);
         thread.start();
-        thread.ui = ui;
         ui.commThread = thread;
     }
 }
