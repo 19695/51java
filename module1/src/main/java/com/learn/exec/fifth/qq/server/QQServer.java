@@ -90,7 +90,7 @@ public class QQServer {
                             SelectionKey key0 = sc0.register(selector, SelectionKey.OP_READ);
                             // 创建独占锁
                             ReentrantLock lock = new ReentrantLock();
-                            // 将 key 和 lock 关联
+                            //TODO 将 key 和 lock 关联
                             key0.attach(lock);
                             // 得到远端地址字符串
                             String remoteAddr = AddressUtil.getRemoteAddr(sc0.socket());

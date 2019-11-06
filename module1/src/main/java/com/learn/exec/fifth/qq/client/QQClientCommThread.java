@@ -38,6 +38,9 @@ public class QQClientCommThread extends Thread {
         return sock;
     }
 
+    /**
+     * 接收消息
+     */
     @Override
     public void run() {
         try{
@@ -64,8 +67,6 @@ public class QQClientCommThread extends Thread {
                             ClientChatMessage ccm = (ClientChatMessage) msg;
                             String sendAddr = ccm.getSendAddress();
                             String msgText = ccm.getMessage();
-                            //todo print > msgText
-                            System.out.println("msg: " + msgText);
                             QQClientChatSingleUI singleUI = ui.chatMap.get(sendAddr);
                             if(singleUI == null){
                                 singleUI = new QQClientChatSingleUI(sendAddr, this);

@@ -35,7 +35,7 @@ public class QQClientChatSingleUI extends JFrame implements ActionListener {
     //接受者地址
     private String recvAddr;
 
-    public QQClientChatSingleUI(String recvAddr,QQClientCommThread commThread) {
+    public QQClientChatSingleUI(String recvAddr, QQClientCommThread commThread) {
         this.commThread = commThread ;
         this.recvAddr = recvAddr;
         init();
@@ -89,7 +89,7 @@ public class QQClientChatSingleUI extends JFrame implements ActionListener {
             String str = taInputMessage.getText();
             if (str != null && !str.trim().equals("")) {
                 ClientChatMessage msg = new ClientChatMessage();
-                msg.setMessage(taInputMessage.getText());
+                msg.setMessage(str);
                 msg.setRecvAddr(recvAddr);
                 try {
                     commThread.sendMessage(msg) ;

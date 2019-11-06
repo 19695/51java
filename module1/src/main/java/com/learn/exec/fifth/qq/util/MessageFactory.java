@@ -54,31 +54,29 @@ public class MessageFactory {
             case BaseMessage.CLIENT_TO_SERVER_CHAT:
             {
                 ServerChatMessage scm = new ServerChatMessage();
+                // 获取接收者地址长度
                 buffer1.clear();
                 sc.read(buffer1);
                 buffer1.flip();
-                // 获取接收者地址长度
-                int recvAddrLen = buffer1.get(0);
-                ByteBuffer bufferAddr = ByteBuffer.allocate(recvAddrLen);
+                int recvAddrLen = buffer1.get(0); // 接收者地址长度
                 // 获取接收者地址
+                ByteBuffer bufferAddr = ByteBuffer.allocate(recvAddrLen);
                 sc.read(bufferAddr);
                 bufferAddr.flip();
                 // 组装服务器端接收者地址
                 scm.setRecvAddr(bufferAddr.array());
-                // 组装服务器端发送者地址
-                scm.setSendAddr(AddressUtil.getRemoteAddrBytes(sc.socket()));
-                // 四字节缓冲区
+                // 获取内容长度
                 ByteBuffer buffer4 = ByteBuffer.allocate(4);
                 sc.read(buffer4);
                 buffer4.flip();
-                // 获取内容长度
                 int msgLen = ConversionUtil.bytes2Int(buffer4.array());
                 ByteBuffer bufferN = ByteBuffer.allocate(msgLen);
+                sc.read(bufferN);
                 bufferN.flip();
+                // 组装服务器端发送者地址
+                scm.setSendAddr(AddressUtil.getRemoteAddrBytes(sc.socket()));
                 // 组装服务器端消息
                 scm.setMessage(bufferN.array());
-                //todo print > scm.msg
-                System.out.println(scm.getMessage());
                 return scm;
             }
 

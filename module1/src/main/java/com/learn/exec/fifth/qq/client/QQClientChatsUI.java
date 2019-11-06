@@ -149,7 +149,7 @@ public class QQClientChatsUI extends JFrame implements ActionListener {
      * 更新历史区域内容
      */
     public void updateHistory(String name ,String msg) {
-        // 相当于 log
+        //todo print > 群聊发送的消息,相当于 log
         System.out.println("历史区: " + name + " : " + msg);
         taHistory.append("[" + name + "]说:\r\n");
         String formatStr = msg.replace("\n", "\n\t");

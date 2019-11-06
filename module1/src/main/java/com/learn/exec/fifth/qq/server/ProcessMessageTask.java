@@ -2,9 +2,8 @@ package com.learn.exec.fifth.qq.server;
 
 import com.learn.exec.fifth.qq.common.BaseMessage;
 import com.learn.exec.fifth.qq.common.ServerChatMessage;
-import com.learn.exec.fifth.qq.util.ConversionUtil;
-import com.learn.exec.fifth.qq.util.MessageFactory;
 import com.learn.exec.fifth.qq.util.AddressUtil;
+import com.learn.exec.fifth.qq.util.MessageFactory;
 
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
@@ -31,7 +30,7 @@ public class ProcessMessageTask implements Runnable {
         QQServer server = QQServer.getInstance();
         // 获取套接字通道
         SocketChannel sc = (SocketChannel) key.channel();
-        // 获取和 key 绑定的 lock
+        //TODO 获取和 key 绑定的 lock
         ReentrantLock lock = (ReentrantLock) key.attachment();
         /*
             尝试拿到锁，拿不到就放弃

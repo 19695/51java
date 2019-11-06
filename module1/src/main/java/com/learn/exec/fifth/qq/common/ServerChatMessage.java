@@ -2,9 +2,7 @@ package com.learn.exec.fifth.qq.common;
 
 import com.learn.exec.fifth.qq.util.ConversionUtil;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 /**
  * 服务器端私聊
