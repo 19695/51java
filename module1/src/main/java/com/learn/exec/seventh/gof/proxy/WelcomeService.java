@@ -1,4 +1,4 @@
-package com.learn.exec.seventh.gof;
+package com.learn.exec.seventh.gof.proxy;
 
 /**
  * 代理模式

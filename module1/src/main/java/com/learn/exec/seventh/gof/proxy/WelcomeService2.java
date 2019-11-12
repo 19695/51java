@@ -1,4 +1,4 @@
-package com.learn.exec.seventh.gof;
+package com.learn.exec.seventh.gof.proxy;
 
 /**
  * 多接口代理

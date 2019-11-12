@@ -1,5 +1,7 @@
 package com.learn.exec.seventh.jdbc;
 
+import com.learn.exec.util.PropertyUtil;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,12 +17,12 @@ import java.sql.Statement;
 public class JDBCDemo {
     public static void main(String[] args) throws Exception {
         // 反射创建驱动
-        Class.forName("com.mysql.jdbc.Driver");
-        String url = "";
-        String user = "";
-        String password = "";
+        Class.forName(PropertyUtil.get("sql.driver"));
+        String url = PropertyUtil.get("sql.url");
+        String user = PropertyUtil.get("sql.user");
+        String pass = PropertyUtil.get("sql.password");
         // 获取连接
-        Connection conn = DriverManager.getConnection(url, user, password);
+        Connection conn = DriverManager.getConnection(url, user, pass);
         // 关闭自动提交
         conn.setAutoCommit(false);
         // 修改事务隔离级别
